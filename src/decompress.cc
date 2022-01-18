@@ -69,8 +69,10 @@ Napi::Object DecompressResult(const Napi::Env &env, const Napi::Buffer<unsigned 
 
   if (resBuffer.IsEmpty())
   {
-    resBuffer = Napi::Buffer<unsigned char>::New(env, props.resData, props.resSize);
+    resBuffer = Napi::Buffer<unsigned char>::Copy(env, props.resData, props.resSize);
   }
+  
+  free(props.resData);
 
   Napi::Object res = Napi::Object::New(env);
   res.Set("data", resBuffer);
